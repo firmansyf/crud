@@ -14,6 +14,7 @@ const LoginPage: FC = () => {
     };
     login(params)
       .then(({ data }) => {
+        window.localStorage.setItem("accessToken", data?.data?.token);
         ToastMessage({ type: "success", message: data?.message });
         navigate("/beranda");
       })
