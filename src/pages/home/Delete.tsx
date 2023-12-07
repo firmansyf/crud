@@ -5,20 +5,28 @@ interface Props {
   showModal: any;
   setShowModal: any;
   onClick: () => void;
+  setDetail: any;
 }
-const ModalDelete: FC<Props> = ({ showModal, setShowModal, onClick }) => {
+const ModalDelete: FC<Props> = ({
+  showModal,
+  setShowModal,
+  onClick,
+  setDetail,
+}) => {
+  const onClose = () => {
+    setShowModal(false);
+    setDetail();
+  };
+
   return (
     <>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={onClose}>
         <div className="d-flex flex-column p-3">
           Are you sure want to delete
         </div>
 
         <div className="d-flex justify-content-end me-3 p-3">
-          <button
-            onClick={() => setShowModal(false)}
-            className="btn btn-sm btn-secondary mx-2"
-          >
+          <button onClick={onClose} className="btn btn-sm btn-secondary mx-2">
             Close
           </button>
           <button

@@ -22,7 +22,7 @@ const AddEdit: FC<Props> = ({
 }) => {
   const onSubmit = (val) => {
     if (detail?.id) {
-      edit({ nama: val?.nama }, detail?.id)
+      edit({ nama: val?.nama, deskripsi: val?.deskripsi }, detail?.id)
         .then(({ data }) => {
           setShowModal(false);
           setReload(reload + 1);
@@ -30,7 +30,7 @@ const AddEdit: FC<Props> = ({
         })
         .catch(() => "");
     } else {
-      add({ nama: val?.nama })
+      add({ nama: val?.nama, deskripsi: val?.deskripsi })
         .then(({ data }) => {
           setShowModal(false);
           setReload(reload + 1);
@@ -44,35 +44,51 @@ const AddEdit: FC<Props> = ({
     setShowModal(false);
     setDetail();
   };
+
   return (
     <>
       <Modal show={showModal} onHide={onClose}>
         <Formik
-          initialValues={{ nama: detail?.nama || "" }}
+          initialValues={{
+            nama: detail?.nama || "",
+            deskripsi: detail?.deskripsi,
+          }}
           onSubmit={onSubmit}
         >
-          <Form className="p-2">
-            <div className="d-flex flex-column p-3">
-              <label>Name :</label>
-              <Field
-                name="nama"
-                placeholder="Enter Name"
-                className="form-control form-control-sm mt-2"
-              />
-            </div>
+          <Form className="d-flex flex-column">
+            <Modal.Body>
+              <div className="d-flex flex-column">
+                <label>Name :</label>
+                <Field
+                  name="nama"
+                  placeholder="Enter Name"
+                  className="form-control form-control-sm mt-2"
+                />
+              </div>
 
-            <div className="d-flex justify-content-end me-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="btn btn-sm btn-secondary mx-2"
-              >
-                Close
-              </button>
-              <button type="submit" className="btn btn-sm btn-primary">
-                Save
-              </button>
-            </div>
+              <div className="d-flex flex-column mt-2">
+                <label>Deskripsi :</label>
+                <Field
+                  name="deskripsi"
+                  placeholder="Enter Deskripsi"
+                  className="form-control form-control-sm mt-2"
+                />
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <div className="d-flex justify-content-end me-3">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="btn btn-sm btn-secondary mx-2"
+                >
+                  Close
+                </button>
+                <button type="submit" className="btn btn-sm btn-primary">
+                  Save
+                </button>
+              </div>
+            </Modal.Footer>
           </Form>
         </Formik>
       </Modal>

@@ -18,7 +18,9 @@ const LoginPage: FC = () => {
         ToastMessage({ type: "success", message: data?.message });
         navigate("/beranda");
       })
-      .catch(() => "");
+      .catch(({ response: { data } }) => {
+        ToastMessage({ type: "error", message: data?.message });
+      });
   };
 
   return (

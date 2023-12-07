@@ -3,9 +3,11 @@ import { AddEdit } from "./AddEdit";
 import { getData, deleteData } from "../../api";
 import { ModalDelete } from "./Delete";
 import { ToastMessage } from "../../component/toast-message";
+import { ModalDetail } from "./Detail";
 
 const Home: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModalDetail, setShowModalDetail] = useState<boolean>(false);
   const [showModalDel, setShowModalDel] = useState<boolean>(false);
   const [detail, setDetail] = useState<any>();
   const [data, setData] = useState<any>([]);
@@ -26,10 +28,10 @@ const Home: FC = () => {
 
   const handleDelete = (id) => {
     setShowModalDel(true);
-
     deleteData(id)
       .then(({ data }) => {
         setShowModalDel(false);
+        setDetail([]);
         setReload(reload + 1);
         ToastMessage({ type: "success", message: data?.message });
       })
@@ -69,6 +71,10 @@ const Home: FC = () => {
                   <span
                     className="badge bg-success"
                     style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setDetail(item);
+                      setShowModalDetail(true);
+                    }}
                   >
                     detail
                   </span>
@@ -108,9 +114,16 @@ const Home: FC = () => {
       />
 
       <ModalDelete
+        setDetail={setDetail}
         setShowModal={setShowModalDel}
         showModal={showModalDel}
         onClick={() => handleDelete(detail?.id)}
+      />
+
+      <ModalDetail
+        setShowModal={setShowModalDetail}
+        showModal={showModalDetail}
+        detail={detail}
       />
     </>
   );
